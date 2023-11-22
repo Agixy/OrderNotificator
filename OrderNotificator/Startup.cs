@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using OrderNotificatorService;
+using OrderNotificatorService.Interfaces;
+using OrderNotificatorService.Repositories;
 
 namespace OrderNotificator
 {
@@ -27,6 +25,8 @@ namespace OrderNotificator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MartaDBConntectionString")));
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

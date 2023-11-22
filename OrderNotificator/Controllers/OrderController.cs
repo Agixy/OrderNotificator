@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Data;
+using OrderNotificatorService.Interfaces;
+using System.Linq;
 
 namespace OrderNotificator.Controllers
 {
@@ -7,28 +8,19 @@ namespace OrderNotificator.Controllers
     [Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        private static readonly DataTable Orders = new DataTable();
+        private readonly IOrderRepository orderRepository;
 
-   
-
-        public OrderController()
-        {
-            Orders.Columns.Add("OrderNumber", typeof(int));
+        public OrderController(IOrderRepository orderRepository)
+        {           
+            this.orderRepository = orderRepository;
         }
 
         [HttpGet]
         public JsonResult Get()
-        {        
-            Orders.Rows.Add(222);
-            Orders.Rows.Add(333);
-            Orders.Rows.Add(444);
-            Orders.Rows.Add(555);
-            Orders.Rows.Add(666);
-            Orders.Rows.Add(777);
-            Orders.Rows.Add(888);
+        {
+            var orders = orderRepository.GetOpenOrders().Result.ToList();
 
-            return new JsonResult(Orders);
+            return new JsonResult(orders);
         }
-
     }
 }
