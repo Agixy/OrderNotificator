@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OrderNotificatorService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7727da2316024edf8466145e6a3faff944df7542")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca1b94330dba80a7cde1f17ebccbd93ee32ad966")]
 [assembly: System.Reflection.AssemblyProductAttribute("OrderNotificatorService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OrderNotificatorService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

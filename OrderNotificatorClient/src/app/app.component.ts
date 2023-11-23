@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,19 +7,19 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  readonly APIUrl="http://localhost:50789/Order";
+  readonly APIUrl = "http://localhost:50789/Order";
+  orders: any = [];
 
-  constructor(private http:HttpClient){
-  }
-  orders:any=[];
-
-  refreshOrders(){
-    this.http.get(this.APIUrl).subscribe(data=>{
-      this.orders=data;
-    })
+  constructor(private http: HttpClient) {
   }
 
-  ngOnInit(){
+  refreshOrders() {
+    this.http.get(this.APIUrl).subscribe(data => {
+      this.orders = data;
+    });
+  }
+
+  ngOnInit() {
     this.refreshOrders();
   }
 }

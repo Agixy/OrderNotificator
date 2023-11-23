@@ -3,14 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
+import { KitchenComponent } from './kitchen/kitchen.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrdersTableComponent } from './shared/orders-table/orders-table.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KitchenComponent        
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    OrdersTableComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

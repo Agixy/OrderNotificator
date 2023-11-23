@@ -1,0 +1,21 @@
+import { Component, OnInit } from '@angular/core';
+import { OrderService } from '../shared/service/order.service';
+import { Order } from '../shared/orders-table/orders-table.component';
+
+@Component({
+  selector: 'app-kitchen',
+  templateUrl: './kitchen.component.html',
+  styleUrl: './kitchen.component.css'
+})
+
+export class KitchenComponent implements OnInit {
+  orders: Order[] = [];
+
+  constructor(private orderService: OrderService) { }
+
+  ngOnInit() {
+    this.orderService.getOrders().subscribe(data => {
+      this.orders = data;
+    });
+  }
+}
