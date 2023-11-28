@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../shared/service/order.service';
-import { Order } from '../shared/orders-table/orders-table.component';
+import { Order, OrdersTableComponent } from '../shared/orders-table/orders-table.component';
+import { TimerComponent } from '../shared/timer/timer.component';
 
 @Component({
   selector: 'app-kitchen',
   templateUrl: './kitchen.component.html',
-  styleUrl: './kitchen.component.css'
+  styleUrl: './kitchen.component.css',
+  standalone: true,
+  imports: [OrdersTableComponent, TimerComponent],
 })
 
 export class KitchenComponent implements OnInit {
