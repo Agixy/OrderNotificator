@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../shared/service/order.service';
-import { Order, OrdersTableComponent } from '../shared/orders-table/orders-table.component';
+import { Order, OrderService } from '../shared/service/order.service';
+import { OrdersTableComponent } from '../shared/orders-table/orders-table.component';
 import { TimerComponent } from '../shared/timer/timer.component';
 
 @Component({

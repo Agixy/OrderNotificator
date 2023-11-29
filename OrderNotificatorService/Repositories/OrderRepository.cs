@@ -20,10 +20,11 @@ namespace OrderNotificatorService.Repositories
                 .Include(n => n.Waiter).ToListAsync();
         }
 
-        //public async Task<IEnumerable<BillsItem>> GetBillItemsByBillNumber(int billNumber)
-        //{
-        //    var billId = _context.Bills.FirstOrDefault(b => b.Number == billNumber).Id;
-        //    return await _context.BillsItems.Where(b => b.BillId == billId).Include(b => b.MenuItem).ToListAsync();
-        //}
+        public async Task<IEnumerable<Order>> GetNewOrders(int lastId)
+        {
+            return await _context.Orders.Where(b => b.CloseDate == null && b.Id > lastId)
+                .Include(n => n.Table)
+                .Include(n => n.Waiter).ToListAsync();
+        }
     }
 }

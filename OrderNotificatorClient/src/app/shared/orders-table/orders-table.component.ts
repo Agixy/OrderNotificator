@@ -1,18 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { OrderService } from '../service/order.service';
+import { Order, OrderService } from '../service/order.service';
 import { MatIconModule } from '@angular/material/icon';
-import { ComponentType } from '@angular/cdk/portal';
-import { TimerComponent } from '../timer/timer.component';
 import { TimeSelectorComponent } from '../time-selector/time-selector.component';
-
-export interface Order {
-  id: number;
-  number: number;
-  tableNumber: string;
-  containPizza: boolean;
-}
+import { Subscription, interval, switchMap } from 'rxjs';
 
 @Component({
   selector: 'orders-table',
@@ -22,33 +14,44 @@ export interface Order {
   imports: [MatTableModule, MatIconModule, TimeSelectorComponent, CommonModule],
 })
 
-
 export class OrdersTableComponent {
 
   @Input() orders: Order[] = [];
-
   @Input() type: boolean = true;
 
+  private subscription: Subscription = new Subscription;
   
-  displayedColumns: string[] = ['id', 'number', 'tableNumber', 'additionalColumn1', 'additionalColumn2', 'delete'];
+  displayedColumns: string[] = ['number', 'tableNumber', 'additionalColumn1', 'additionalColumn2', 'delete'];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
     this.refreshOrders();
+
+    this.subscription = interval(10000)
+    .pipe(
+      switchMap(() => this.orderService.getNewOrders(this.orders.length > 0 ? this.orders[0].id : 0))
+    )
+    .subscribe(
+      (newOrders: Order[]) => {
+        this.orders = [...this.orders, ...newOrders];
+      },
+      (error) => {
+        console.error('Error fetching new orders:', error);
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   refreshOrders() {
     this.orderService.getOrders().subscribe(
-      (apiOrders: any[]) => {
-        this.orders = apiOrders.map((apiOrder) => {
-          return {
-            id: apiOrder.Id.toString(),
-            number: apiOrder.Number,
-            tableNumber: apiOrder.Table?.Name,
-            containPizza: true
-          } as Order;
-        });
+      (apiOrders: Order[]) => {
+        this.orders = apiOrders;
       },
       (error) => {
         console.error('Error fetching orders:', error);
