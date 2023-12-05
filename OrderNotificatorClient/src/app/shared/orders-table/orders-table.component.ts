@@ -5,13 +5,14 @@ import { Order, OrderService } from '../service/order.service';
 import { MatIconModule } from '@angular/material/icon';
 import { TimeSelectorComponent } from '../time-selector/time-selector.component';
 import { Subscription, interval, switchMap } from 'rxjs';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'orders-table',
   templateUrl: './orders-table.component.html',
   styleUrl: './orders-table.component.css',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, TimeSelectorComponent, CommonModule],
+  imports: [MatTableModule, MatIconModule, TimeSelectorComponent, TimerComponent, CommonModule],
 })
 
 export class OrdersTableComponent {
@@ -21,7 +22,7 @@ export class OrdersTableComponent {
 
   private subscription: Subscription = new Subscription;
   
-  displayedColumns: string[] = ['number', 'tableNumber', 'additionalColumn1', 'additionalColumn2', 'delete'];
+  displayedColumns: string[] = ['number', 'tableNumber', 'additionalColumn1', 'timer', 'delete'];
 
   constructor(private orderService: OrderService) {}
 

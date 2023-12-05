@@ -7,6 +7,7 @@ export interface Order {
   number: number;
   tableNumber: string;
   containPizza: boolean;
+  deliveryTime: Date;
 }
 
 @Injectable({
@@ -36,6 +37,7 @@ export class OrderService {
         number: apiOrder.Number,
         tableNumber: apiOrder.Table?.Name,
         containPizza: true,
+        deliveryTime: new Date(), // TODO: set get deliveryTime from database
       } as Order;
     });
   }
