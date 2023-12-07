@@ -1,4 +1,10 @@
 .frame {
     padding: 30px;
   }
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
   

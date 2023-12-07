@@ -13,7 +13,7 @@
     <ng-container matColumnDef="additionalColumn1">
       <th mat-header-cell *matHeaderCellDef> Czas do wydania </th>
       <td mat-cell *matCellDef="let element">
-        <ng-container *ngIf="type && element.containPizza">
+        <ng-container *ngIf="type==='Kitchen' && element.containPizza">
           <time-selector></time-selector>
         </ng-container>
       </td>

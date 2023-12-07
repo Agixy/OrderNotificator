@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'timer',
@@ -46,7 +46,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   private formatTime(milliseconds: number): string {
     const seconds = Math.floor((milliseconds / 1000) % 60);
     const minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
-    const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
 
     const displayMinutes = minutes.toString().padStart(2, '0');
     const displaySeconds = seconds.toString().padStart(2, '0');

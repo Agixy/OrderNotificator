@@ -7,6 +7,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  showKitchen = false;
+  showPizza = false;
+
   readonly APIUrl = "http://localhost:50789/Order";
   orders: any = [];
 

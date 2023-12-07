@@ -1,3 +1,8 @@
 <div class="frame">
-    <app-kitchen></app-kitchen>
+    <div class="buttons-container">
+        <button mat-raised-button color="primary" *ngIf="!showKitchen && !showPizza" (click)="showKitchen = true">Zamówienia - kuchnia</button>
+        <button mat-raised-button color="primary" *ngIf="!showKitchen && !showPizza" (click)="showPizza = true">Zamówienia - pizzeria</button>
+    </div>  
+    <app-kitchen *ngIf="showKitchen"></app-kitchen>
+    <app-pizza *ngIf="showPizza"></app-pizza>  
 </div>

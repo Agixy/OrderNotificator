@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TimeSelectorComponent } from '../time-selector/time-selector.component';
 import { Subscription, interval, switchMap } from 'rxjs';
 import { TimerComponent } from '../timer/timer.component';
+import { ServingPlaceType } from '../enums/ServingPlaceType';
 
 @Component({
   selector: 'orders-table',
@@ -18,7 +19,7 @@ import { TimerComponent } from '../timer/timer.component';
 export class OrdersTableComponent {
 
   @Input() orders: Order[] = [];
-  @Input() type: boolean = true;
+  @Input() type: ServingPlaceType = ServingPlaceType.Kitchen;
 
   private subscription: Subscription = new Subscription;
   
