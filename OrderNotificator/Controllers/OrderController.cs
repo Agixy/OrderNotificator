@@ -173,5 +173,21 @@ namespace OrderNotificator.Controllers
 
             return new JsonResult(orders);
         }
+
+        [HttpPost]
+        [Route("PizzaDeliveryTime")]
+        public JsonResult AddPizzaDeliveryTime(Object date)
+        {
+            try
+            {
+                DateTime dateTime = (DateTime)date;
+                return new JsonResult("Data zapisana");
+            }
+            catch(Exception ex)
+            {
+                return new JsonResult($"Blad zapisu daty: {ex.Message}");
+            }
+            
+        }
     }
 }

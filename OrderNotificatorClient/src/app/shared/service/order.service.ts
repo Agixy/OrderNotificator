@@ -41,4 +41,8 @@ export class OrderService {
       } as Order;
     });
   }
+
+  addPizzaDeliveryTime(time: Date): Observable<Date>{
+    return this.http.post<Date>(`${this.APIUrl}/pizzaDeliveryTime`, time);
+  }
 }
