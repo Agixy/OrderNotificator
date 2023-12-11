@@ -13,18 +13,10 @@ namespace OrderNotificatorService.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetOpenOrders()
+        public async Task<IEnumerable<PosOrder>> GetOpenOrders(long lastId = 0)
         {
-            return await _context.Orders.Where(b => b.CloseDate == null)
-                .Include(n => n.Table)
-                .Include(n => n.Waiter).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Order>> GetNewOrders(int lastId)
-        {
-            return await _context.Orders.Where(b => b.CloseDate == null && b.Id > lastId)
-                .Include(n => n.Table)
-                .Include(n => n.Waiter).ToListAsync();
+            return await _context.PosOrders.Where(b => b.CloseDate == null && b.Id > lastId)
+                .Include(n => n.Table).ToListAsync();
         }
     }
 }

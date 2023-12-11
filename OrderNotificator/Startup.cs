@@ -26,17 +26,18 @@ namespace OrderNotificator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MartaDBConntectionString")));
+            services.AddDbContext<TimedOrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("OrderNotificatorDBConntectionString")));
+
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ITimedOrderRepository, TimedOrderRepository>();
+            services.AddScoped<INotificatorService, NotificatorService>();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                })
-                .AddNewtonsoftJson(options =>
-                {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                });
+                });       
 
             services.AddSwaggerGen(c =>
             {
