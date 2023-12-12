@@ -17,7 +17,7 @@ export class PizzaComponent implements OnInit {
   constructor(private orderService: OrderService) { }
 
   ngOnInit() {
-    this.orderService.getOrders().subscribe(data => {
+    this.orderService.getPizzaOrders(0).subscribe(data => {
       this.orders = data;
     });
   }

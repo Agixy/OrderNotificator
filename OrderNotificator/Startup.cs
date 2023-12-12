@@ -25,10 +25,10 @@ namespace OrderNotificator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MartaDBConntectionString")));
+            services.AddDbContext<PosOrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MartaDBConntectionString")));
             services.AddDbContext<TimedOrderDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("OrderNotificatorDBConntectionString")));
 
-            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderRepository, PosOrderRepository>();
             services.AddScoped<ITimedOrderRepository, TimedOrderRepository>();
             services.AddScoped<INotificatorService, NotificatorService>();
 

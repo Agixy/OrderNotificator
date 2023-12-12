@@ -3,12 +3,12 @@ using OrderNotificatorService.Models;
 
 namespace OrderNotificatorService
 {
-    public class OrderDbContext : DbContext
+    public class PosOrderDbContext : DbContext
     {
         public DbSet<PosOrder> PosOrders { get; set; }
         public DbSet<Table> Tables { get; set; }
 
-        public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
+        public PosOrderDbContext(DbContextOptions<PosOrderDbContext> options) : base(options)
         {
         }
 

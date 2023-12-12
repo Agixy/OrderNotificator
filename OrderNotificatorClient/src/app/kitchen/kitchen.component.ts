@@ -19,7 +19,7 @@ export class KitchenComponent implements OnInit {
   constructor(private orderService: OrderService) { }
 
   ngOnInit() {
-    this.orderService.getOrders().subscribe(data => {
+    this.orderService.getKitchenOrders(0).subscribe(data => {
       this.orders = data;
     });
   }

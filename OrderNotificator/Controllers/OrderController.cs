@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using OrderNotificatorService.Dtos;
 using OrderNotificatorService.Interfaces;
+using OrderNotificatorService.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OrderNotificator.Controllers
@@ -16,14 +21,14 @@ namespace OrderNotificator.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/Kitchen")]
+        [Route("Kitchen/{lastId}")]
         public JsonResult GetKitchenOrders(int lastId)
-        {        
-            return new JsonResult(orderNotificatorService.GetKitchenOrders(lastId).Result.ToList());
+        {
+             return new JsonResult(orderNotificatorService.GetKitchenOrders(lastId).Result.ToList());
         }
 
         [HttpGet]
-        [Route("[controller]/Pizza")]
+        [Route("Pizza/{lastId}")]
         public JsonResult GetPizzaOrders(int lastId)
         {
             return new JsonResult(orderNotificatorService.GetPizzaOrders(lastId).Result.ToList()); ;
@@ -31,11 +36,11 @@ namespace OrderNotificator.Controllers
 
         [HttpPost]
         [Route("PizzaDeliveryTime")]
-        public JsonResult AddPizzaDeliveryTime(Object date)
+        public JsonResult AddPizzaDeliveryTime(OrderDto order)
         {
             try
             {
-                DateTime dateTime = (DateTime)date;
+                orderNotificatorService.SavePizzaDeliveryTime(order);
                 return new JsonResult("Data zapisana");
             }
             catch(Exception ex)

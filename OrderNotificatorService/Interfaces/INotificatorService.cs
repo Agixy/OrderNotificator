@@ -8,5 +8,7 @@ namespace OrderNotificatorService.Interfaces
         public Task<IEnumerable<OrderDto>> GetKitchenOrders(long lastId);
 
         public Task<IEnumerable<TimedOrder>> GetPizzaOrders(long lastId);
+
+        public Task SavePizzaDeliveryTime(OrderDto order);
     }
 }

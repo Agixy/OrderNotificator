@@ -4,11 +4,11 @@ using OrderNotificatorService.Models;
 
 namespace OrderNotificatorService.Repositories
 {
-    public class OrderRepository : IOrderRepository
+    public class PosOrderRepository : IOrderRepository
     {
-        private readonly OrderDbContext _context;
+        private readonly PosOrderDbContext _context;
 
-        public OrderRepository(OrderDbContext context)
+        public PosOrderRepository(PosOrderDbContext context)
         {
             _context = context;
         }

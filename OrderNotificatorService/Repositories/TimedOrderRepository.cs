@@ -18,9 +18,10 @@ namespace OrderNotificatorService.Repositories
             return await _context.TimedOrders.ToListAsync();
         }
 
-        public async Task SaveChangesAsync()
+        public void SaveTimedOrder(TimedOrder order)
         {
-            await _context.SaveChangesAsync();
+            _context.TimedOrders.Add(order);
+            _context.SaveChanges();
         }
     }
 }

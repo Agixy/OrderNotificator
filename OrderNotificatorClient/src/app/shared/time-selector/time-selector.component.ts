@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { OrderService } from '../service/order.service';
+import { Order, OrderService } from '../service/order.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,13 +12,11 @@ import { Subscription } from 'rxjs';
 })
 export class TimeSelectorComponent {
 
+  @Input() order!: Order;
   private subscription: Subscription = new Subscription();
 
   constructor(private orderService: OrderService){}
 
-  ngOnInit(){
-
-  }
 
   ngOnDestroy() {
     if (this.subscription) {
@@ -26,22 +24,24 @@ export class TimeSelectorComponent {
     }   
   }
 
-  setPizzaDeliveryTime(time: number) : Date{
-    let time_ = parseInt(time.toString());
+  private calculatePizzaDeliveryTime(minutesToAdd: number) : Date{
+    let time_ = parseInt(minutesToAdd.toString());
     let currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + time_);
+    currentDate.setHours(currentDate.getHours() + 1);
     return currentDate;
   }
 
   deliveryTimeSelected(event : any){    
     let selectedTime : number = event.value;
-    let pizzaDeliveryTime = this.setPizzaDeliveryTime(selectedTime);
-    this.addPizzaDeliveryTime(pizzaDeliveryTime);
+    let pizzaDeliveryTime = this.calculatePizzaDeliveryTime(selectedTime);
+    this.order.deliveryTime = pizzaDeliveryTime;
+    this.addPizzaDeliveryTime(this.order);
   }
 
-  addPizzaDeliveryTime(time: Date){
+  addPizzaDeliveryTime(order: Order){
     this.orderService
-    .addPizzaDeliveryTime(time)
+    .addPizzaDeliveryTime(order)
     .subscribe(timeAPI =>
       {
           console.log("Czas wydania pizzy został zapisany.");

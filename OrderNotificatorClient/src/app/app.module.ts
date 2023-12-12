@@ -10,7 +10,6 @@ import { OrdersTableComponent } from './shared/orders-table/orders-table.compone
 import { TimerComponent } from './shared/timer/timer.component';
 import { TimeSelectorComponent } from './shared/time-selector/time-selector.component';
 import { PizzaComponent } from './pizza/pizza.component';
-import { OrderService } from './shared/service/order.service';
 
 @NgModule({
   declarations: [

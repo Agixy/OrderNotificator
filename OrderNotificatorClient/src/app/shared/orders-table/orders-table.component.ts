@@ -23,16 +23,14 @@ export class OrdersTableComponent {
 
   private subscription: Subscription = new Subscription;
   
-  displayedColumns: string[] = ['number', 'tableNumber', 'additionalColumn1', 'timer', 'delete'];
+  displayedColumns: string[] = ['number', 'tableName', 'timeSelector', 'timer', 'delete'];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.refreshOrders();
-
     this.subscription = interval(10000)
     .pipe(
-      switchMap(() => this.orderService.getNewOrders(this.orders.length > 0 ? this.orders[0].id : 0))
+      switchMap(() => this.orderService.getKitchenOrders(this.orders.length > 0 ? this.orders[0].posId : 0))
     )
     .subscribe(
       (newOrders: Order[]) => {
@@ -50,18 +48,7 @@ export class OrdersTableComponent {
     }
   }
 
-  refreshOrders() {
-    this.orderService.getOrders().subscribe(
-      (apiOrders: Order[]) => {
-        this.orders = apiOrders;
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-      }
-    );
-  }
-
   delete(id: number) {
-    this.orders = this.orders.filter((u) => u.id !== id);
+    this.orders = this.orders.filter((u) => u.posId !== id);  
   }
 }

@@ -9,20 +9,10 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   showKitchen = false;
   showPizza = false;
-
-  readonly APIUrl = "http://localhost:50789/Order";
   orders: any = [];
 
   constructor(private http: HttpClient) {
   }
 
-  refreshOrders() {
-    this.http.get(this.APIUrl).subscribe(data => {
-      this.orders = data;
-    });
-  }
 
-  ngOnInit() {
-    this.refreshOrders();
-  }
 }

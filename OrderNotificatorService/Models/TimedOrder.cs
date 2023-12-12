@@ -8,7 +8,7 @@ namespace OrderNotificatorService.Models
         public long Id { get; set; }
         public required long PosId { get; set; }
         public required int Number { get; set; }
-        public string TableName { get; set; }
+        public required string TableName { get; set; }
         public required DateTime DeliveryTime { get; set; }
         public bool ContainOnlyPizza { get; set; }
     }

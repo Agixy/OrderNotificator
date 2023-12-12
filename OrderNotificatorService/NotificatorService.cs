@@ -1,4 +1,5 @@
 ﻿using OrderNotificatorService.Dtos;
+using OrderNotificatorService.Enums;
 using OrderNotificatorService.Interfaces;
 using OrderNotificatorService.Models;
 
@@ -25,7 +26,7 @@ namespace OrderNotificatorService
 
             foreach (var posOrder in posOrders)
             {
-                var order = new OrderDto(posOrder.Id, posOrder.Number);
+                var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table.Name);
 
                 if (timedOrders.Any(o => o.PosId == posOrder.Id))
                 {
@@ -42,6 +43,26 @@ namespace OrderNotificatorService
         public async Task<IEnumerable<TimedOrder>> GetPizzaOrders(long lastId)
         {          
             return (await timedOrderRepository.Get());
+        }
+
+        public async Task SavePizzaDeliveryTime(OrderDto order)
+        {
+            var timedOrder = ConvertDtoToTimedOrder(order);
+            
+            timedOrderRepository.SaveTimedOrder(timedOrder);
+        }
+
+        private TimedOrder ConvertDtoToTimedOrder(OrderDto orderDto)
+        {            
+            return new TimedOrder
+            {
+                Id = orderDto.TimedOrderId,
+                PosId = orderDto.PosId,
+                Number = orderDto.Number,
+                TableName = orderDto.TableName,
+                DeliveryTime = orderDto.DeliveryTime,
+                ContainOnlyPizza = orderDto.OrderContent == OrderContent.PizzaOnly
+            };
         }
     }
 }

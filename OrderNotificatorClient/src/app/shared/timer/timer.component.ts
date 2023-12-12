@@ -25,8 +25,8 @@ export class TimerComponent implements OnInit, OnDestroy {
     const interval = 1000;
 
     this.timerSubscription = timer(0, interval).subscribe(() => {
-      const currentTime = new Date().getTime();
-      const remainingTime = this.endTime ? this.endTime.getTime() - currentTime : 0;
+      var currentTime = new Date().getTime();
+      var remainingTime = this.endTime ? this.endTime.getTime() - currentTime : 0;     
 
       if (remainingTime > 0) {
         this.displayTime = this.formatTime(remainingTime);
