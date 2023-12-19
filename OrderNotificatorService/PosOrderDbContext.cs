@@ -7,6 +7,8 @@ namespace OrderNotificatorService
     {
         public DbSet<PosOrder> PosOrders { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<MenuItemCategory> MenuItemCategories { get; set; }
 
         public PosOrderDbContext(DbContextOptions<PosOrderDbContext> options) : base(options)
         {
@@ -27,6 +29,24 @@ namespace OrderNotificatorService
             modelBuilder.Entity<Table>().Property(b => b.Name).HasColumnName("STO_Nazwa");        
 
             modelBuilder.Entity<PosOrder>().HasOne(p => p.Table).WithMany();
+
+            modelBuilder.Entity<PosOrderItem>().ToTable("DSL_DokumentySprzedazyLinijki");
+            modelBuilder.Entity<PosOrderItem>().Property(d => d.Id).HasColumnName("DSL_ID");
+            modelBuilder.Entity<PosOrderItem>().Property(d => d.PosOrderId).HasColumnName("DSL_DSRID");
+            modelBuilder.Entity<PosOrderItem>().Property(d => d.MenuItemId).HasColumnName("DSL_ARTID");
+            modelBuilder.Entity<PosOrderItem>().Property(d => d.CancellationDate).HasColumnName("DSL_DataStorna");
+
+            modelBuilder.Entity<PosOrderItem>().HasOne(i => i.PosOrder).WithMany(b => b.PosOrderItems).HasForeignKey(p => p.PosOrderId);
+            modelBuilder.Entity<PosOrderItem>().HasOne(p => p.MenuItem).WithMany();
+
+            modelBuilder.Entity<MenuItem>().ToTable("ART_Artykuly");
+            modelBuilder.Entity<MenuItem>().Property(d => d.Id).HasColumnName("ART_ID");
+            modelBuilder.Entity<MenuItem>().Property(d => d.Name).HasColumnName("ART_Nazwa");
+
+            modelBuilder.Entity<MenuItemCategory>().ToTable("AXK_ArtXKat");
+            modelBuilder.Entity<MenuItemCategory>().Property(d => d.Id).HasColumnName("AXK_ID");
+            modelBuilder.Entity<MenuItemCategory>().Property(d => d.CategoryId).HasColumnName("AXK_KATID");
+            modelBuilder.Entity<MenuItemCategory>().Property(d => d.MenuItemId).HasColumnName("AXK_ARTID");          
 
             base.OnModelCreating(modelBuilder);
         }

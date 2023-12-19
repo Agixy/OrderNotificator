@@ -9,33 +9,38 @@ namespace OrderNotificatorService
     {
         private readonly IOrderRepository orderRepository;
         private readonly ITimedOrderRepository timedOrderRepository;
+        private const int pizzaCateogryId = 5200192;
 
         public NotificatorService(IOrderRepository orderRepository, ITimedOrderRepository pizzaOrderRepository)
         {
             this.orderRepository = orderRepository;
-            this.timedOrderRepository = pizzaOrderRepository;
+            this.timedOrderRepository = pizzaOrderRepository;            
         }
 
         public async Task<IEnumerable<OrderDto>> GetKitchenOrders(long lastId)
         {
             var posOrders = await orderRepository.GetOpenOrders(lastId);
-
-            var timedOrders = await timedOrderRepository.Get();
-
             var orders = new List<OrderDto>();
 
-            foreach (var posOrder in posOrders)
+            if (posOrders.Count() > 0)
             {
-                var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table.Name);
+                var timedOrders = await timedOrderRepository.Get();               
 
-                if (timedOrders.Any(o => o.PosId == posOrder.Id))
+                foreach (var posOrder in posOrders)
                 {
-                    var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
-                    order.DeliveryTime = timedOrder.DeliveryTime;
-                }
+                    var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table.Name);
 
-                orders.Add(order);
-            }
+                    SetOrderContent(order, posOrder);
+
+                    if (timedOrders.Any(o => o.PosId == posOrder.Id))
+                    {
+                        var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
+                        order.DeliveryTime = timedOrder.DeliveryTime;
+                    }
+
+                    orders.Add(order);
+                }
+            }           
 
             return orders;
         }
@@ -63,6 +68,25 @@ namespace OrderNotificatorService
                 DeliveryTime = orderDto.DeliveryTime,
                 ContainOnlyPizza = orderDto.OrderContent == OrderContent.PizzaOnly
             };
+        }
+
+        private void SetOrderContent(OrderDto order, PosOrder posOrder)
+        {
+            var itemsIds = posOrder.PosOrderItems.Select(p => p.MenuItem.Id).ToList();
+            var menuItemsPizza = orderRepository.GetMenuItemIdsByCategory(pizzaCateogryId).Result;
+
+            if (itemsIds.All(item => menuItemsPizza.Contains(item)))
+            {
+                order.OrderContent = OrderContent.PizzaOnly;
+            }
+            else if (itemsIds.All(item => menuItemsPizza.Except(new List<int> { item }).Any()))
+            {
+                order.OrderContent = OrderContent.DishesOnly;
+            }
+            else
+            {
+                order.OrderContent = OrderContent.PizzaAndDishes;
+            }
         }
     }
 }

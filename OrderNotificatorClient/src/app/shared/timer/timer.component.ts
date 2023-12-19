@@ -7,7 +7,7 @@ import { Subscription, timer } from 'rxjs';
   standalone: true
 })
 export class TimerComponent implements OnInit, OnDestroy {
-  @Input() endTime?: Date;
+  @Input() endTime!: Date;
 
   displayTime: string = '';
 
@@ -30,10 +30,10 @@ export class TimerComponent implements OnInit, OnDestroy {
 
       if (remainingTime > 0) {
         this.displayTime = this.formatTime(remainingTime);
-      } else if (remainingTime <= 0 && this.endTime != undefined) {
+      } else if (remainingTime <= 0 && this.endTime.getFullYear() != 1) {
         this.displayTime = 'Czas minął';
         this.stopTimer();
-      }
+      } 
     });
   }
 

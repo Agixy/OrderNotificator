@@ -39,7 +39,7 @@ export class OrderService {
         posId: apiOrder.PosId.toString(),
         number: apiOrder.Number,
         tableName: apiOrder.TableName,
-        orderContent: OrderContent.PizzaAndDishes, // TODO: get data from database
+        orderContent: apiOrder.OrderContent,
         deliveryTime: new Date(apiOrder.DeliveryTime)
       } as Order;
     });
