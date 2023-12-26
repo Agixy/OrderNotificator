@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order, OrderService } from '../shared/service/order.service';
 import { OrdersTableComponent } from '../shared/orders-table/orders-table.component';
-import { TimerComponent } from '../shared/timer/timer.component';
 import { ServingPlaceType } from '../shared/enums/ServingPlaceType';
 
 @Component({
@@ -12,15 +11,7 @@ import { ServingPlaceType } from '../shared/enums/ServingPlaceType';
   imports: [OrdersTableComponent],
 })
 
-export class KitchenComponent implements OnInit {
+export class KitchenComponent {
   orders: Order[] = [];
   type: ServingPlaceType = ServingPlaceType.Kitchen;
-
-  constructor(private orderService: OrderService) { }
-
-  ngOnInit() {
-    this.orderService.getKitchenOrders(0).subscribe(data => {
-      this.orders = data;
-    });
-  }
 }

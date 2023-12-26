@@ -10,16 +10,7 @@ import { ServingPlaceType } from '../shared/enums/ServingPlaceType';
   standalone: true,
   imports: [OrdersTableComponent],
 })
-export class PizzaComponent implements OnInit {
+export class PizzaComponent {
   orders: Order[] = [];
   type: ServingPlaceType = ServingPlaceType.Pizza;
-
-  constructor(private orderService: OrderService) { }
-
-  ngOnInit() {
-    this.orderService.getPizzaOrders(0).subscribe(data => {
-      this.orders = data;
-    });
-  }
-
 }

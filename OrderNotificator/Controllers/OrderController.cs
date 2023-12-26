@@ -22,16 +22,23 @@ namespace OrderNotificator.Controllers
 
         [HttpGet]
         [Route("Kitchen/{lastId}")]
-        public JsonResult GetKitchenOrders(int lastId)
+        public JsonResult GetKitchenOrders(long lastId)
         {
              return new JsonResult(orderNotificatorService.GetKitchenOrders(lastId).Result.ToList());
         }
 
         [HttpGet]
         [Route("Pizza/{lastId}")]
-        public JsonResult GetPizzaOrders(int lastId)
+        public JsonResult GetPizzaOrders(long lastId)
         {
             return new JsonResult(orderNotificatorService.GetPizzaOrders(lastId).Result.ToList()); ;
+        }
+
+        [HttpGet]
+        [Route("TimedOrders")]
+        public JsonResult GetTimedOrders()
+        {
+            return new JsonResult(orderNotificatorService.GetTimedOrders().Result);
         }
 
         [HttpPost]

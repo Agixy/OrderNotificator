@@ -28,7 +28,7 @@ namespace OrderNotificatorService
 
                 foreach (var posOrder in posOrders)
                 {
-                    var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table.Name);
+                    var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table?.Name);
 
                     SetOrderContent(order, posOrder);
 
@@ -50,6 +50,12 @@ namespace OrderNotificatorService
             return (await timedOrderRepository.Get());
         }
 
+        public async Task<IEnumerable<OrderDto>> GetTimedOrders()
+        {
+            var timedOrders = await timedOrderRepository.Get();           
+            return timedOrders.Select(t => ConvertTimedOrderToDto(t));
+        }
+
         public async Task SavePizzaDeliveryTime(OrderDto order)
         {
             var timedOrder = ConvertDtoToTimedOrder(order);
@@ -67,6 +73,16 @@ namespace OrderNotificatorService
                 TableName = orderDto.TableName,
                 DeliveryTime = orderDto.DeliveryTime,
                 ContainOnlyPizza = orderDto.OrderContent == OrderContent.PizzaOnly
+            };
+        }
+
+        private OrderDto ConvertTimedOrderToDto(TimedOrder timedOrder)
+        {
+            return new OrderDto(timedOrder.PosId, timedOrder.Number, timedOrder.TableName)
+            {
+                TimedOrderId = timedOrder.Id,
+                DeliveryTime = timedOrder.DeliveryTime,
+                //OrderContent = timedOrder... == OrderContent.PizzaOnly TODO: Convert this
             };
         }
 

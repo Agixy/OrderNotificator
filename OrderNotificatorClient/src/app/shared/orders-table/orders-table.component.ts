@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Order, OrderService } from '../service/order.service';
 import { MatIconModule } from '@angular/material/icon';
 import { TimeSelectorComponent } from '../time-selector/time-selector.component';
-import { Subscription, interval, switchMap } from 'rxjs';
+import { Subscription, switchMap, timer } from 'rxjs';
 import { TimerComponent } from '../timer/timer.component';
 import { ServingPlaceType } from '../enums/ServingPlaceType';
 
@@ -22,15 +22,16 @@ export class OrdersTableComponent {
   @Input() type: ServingPlaceType = ServingPlaceType.Kitchen;
 
   private subscription: Subscription = new Subscription;
+  private timerSubscription: Subscription = new Subscription;
   
   displayedColumns: string[] = ['number', 'tableName', 'timeSelector', 'timer', 'delete'];
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.subscription = interval(10000)
+    this.subscription = timer(0, 10000)
     .pipe(
-      switchMap(() => this.orderService.getKitchenOrders(this.orders.length > 0 ? this.orders[0].posId : 0))
+      switchMap(() => this.orderService.getKitchenOrders(this.orders.length > 0 ? this.orders[this.orders.length-1].posId : 0))
     )
     .subscribe(
       (newOrders: Order[]) => {
@@ -40,8 +41,23 @@ export class OrdersTableComponent {
         console.error('Error fetching new orders:', error);
       }
     );
-  }
 
+    this.timerSubscription = timer(0, 15000)
+    .pipe(
+      switchMap(() => this.orderService.getTimedOrders())
+    )
+    .subscribe(
+      (timedOrders: Order[]) => {
+        timedOrders.forEach(timedOrder => {
+          var index = this.orders.findIndex(o => o.posId === timedOrder.posId);
+          if (index > -1) {
+            this.orders[index].deliveryTime = timedOrder.deliveryTime;
+          }
+        });
+      }
+    );
+  }
+   
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

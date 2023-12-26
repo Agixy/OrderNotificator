@@ -31,6 +31,12 @@ export class OrderService {
       map((apiOrders: any[]) => this.mapToOrders(apiOrders))
     );
   }
+  
+  getTimedOrders(): Observable<Order[]> {
+    return this.http.get<any[]>(`${this.APIUrl}/TimedOrders`).pipe(
+      map((apiOrders: any[]) => this.mapToOrders(apiOrders))
+    );
+  }
 
   private mapToOrders(apiOrders: any[]): Order[] {
     return apiOrders.map((apiOrder) => {
