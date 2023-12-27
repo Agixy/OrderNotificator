@@ -16,7 +16,7 @@ import { ServingPlaceType } from '../enums/ServingPlaceType';
   imports: [MatTableModule, MatIconModule, TimeSelectorComponent, TimerComponent, CommonModule],
 })
 
-export class OrdersTableComponent {
+export class OrdersTableComponent {  
 
   @Input() orders: Order[] = [];
   @Input() type: ServingPlaceType = ServingPlaceType.Kitchen;
@@ -29,19 +29,6 @@ export class OrdersTableComponent {
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
-    this.subscription = timer(0, 10000)
-    .pipe(
-      switchMap(() => this.orderService.getKitchenOrders(this.orders.length > 0 ? this.orders[this.orders.length-1].posId : 0))
-    )
-    .subscribe(
-      (newOrders: Order[]) => {
-        this.orders = [...this.orders, ...newOrders];
-      },
-      (error) => {
-        console.error('Error fetching new orders:', error);
-      }
-    );
-
     this.timerSubscription = timer(0, 15000)
     .pipe(
       switchMap(() => this.orderService.getTimedOrders())

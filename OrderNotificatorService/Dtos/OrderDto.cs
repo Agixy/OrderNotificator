@@ -1,5 +1,4 @@
 ﻿using OrderNotificatorService.Enums;
-using OrderNotificatorService.Models;
 
 namespace OrderNotificatorService.Dtos
 {

@@ -5,3 +5,11 @@
   .header-background {
     background: #F0F8FF;
   }
+
+  .no-orders-found {
+    font-size: larger;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+  }

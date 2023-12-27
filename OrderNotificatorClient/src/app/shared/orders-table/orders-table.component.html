@@ -1,4 +1,10 @@
 <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+      <div class="no-orders-found ">Brak zamówień</div>
+    </td>
+  </tr>
   
     <ng-container matColumnDef="number">
       <th class="orders-table-header" mat-header-cell *matHeaderCellDef> Numer zamówienia </th>

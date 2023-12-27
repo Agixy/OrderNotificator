@@ -45,9 +45,40 @@ namespace OrderNotificatorService
             return orders;
         }
 
-        public async Task<IEnumerable<TimedOrder>> GetPizzaOrders(long lastId)
-        {          
-            return (await timedOrderRepository.Get());
+        public async Task<IEnumerable<OrderDto>> GetPizzaOrders(long lastId)
+        {
+            var posOrders = await orderRepository.GetOpenOrders(lastId);
+            var orders = new List<OrderDto>();
+
+            if (posOrders.Count() > 0)
+            {
+                var timedOrders = await timedOrderRepository.Get();
+
+                foreach (var posOrder in posOrders)
+                {
+                    var order = new OrderDto(posOrder.Id, posOrder.Number, posOrder.Table?.Name);
+
+                    SetOrderContent(order, posOrder);
+
+                    if (order.OrderContent == OrderContent.DishesOnly)
+                    {
+                        continue;
+                    }
+
+                    if (timedOrders.Any(o => o.PosId == posOrder.Id))
+                    {
+                        var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
+                        order.DeliveryTime = timedOrder.DeliveryTime;
+                    }
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+
+
+           
         }
 
         public async Task<IEnumerable<OrderDto>> GetTimedOrders()
@@ -82,7 +113,7 @@ namespace OrderNotificatorService
             {
                 TimedOrderId = timedOrder.Id,
                 DeliveryTime = timedOrder.DeliveryTime,
-                //OrderContent = timedOrder... == OrderContent.PizzaOnly TODO: Convert this
+                OrderContent = timedOrder.ContainOnlyPizza ? OrderContent.PizzaOnly : OrderContent.PizzaAndDishes 
             };
         }
 

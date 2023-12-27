@@ -1,5 +1,4 @@
 ﻿using OrderNotificatorService.Dtos;
-using OrderNotificatorService.Models;
 
 namespace OrderNotificatorService.Interfaces
 {
@@ -7,7 +6,7 @@ namespace OrderNotificatorService.Interfaces
     {
         public Task<IEnumerable<OrderDto>> GetKitchenOrders(long lastId);
 
-        public Task<IEnumerable<TimedOrder>> GetPizzaOrders(long lastId);
+        public Task<IEnumerable<OrderDto>> GetPizzaOrders(long lastId);
 
         public Task<IEnumerable<OrderDto>> GetTimedOrders();
 

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using OrderNotificatorService.Dtos;
 using OrderNotificatorService.Interfaces;
-using OrderNotificatorService.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace OrderNotificator.Controllers
