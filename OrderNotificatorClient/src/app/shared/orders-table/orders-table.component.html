@@ -19,7 +19,7 @@
     <ng-container matColumnDef="timeSelector">
       <th class="orders-table-header" mat-header-cell *matHeaderCellDef> Czas do wydania </th>
       <td mat-cell *matCellDef="let element">        
-        <time-selector [order]="element"></time-selector>        
+        <time-selector [order]="element" [type]="type"></time-selector>        
       </td>
     </ng-container>
 

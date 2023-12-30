@@ -126,7 +126,7 @@ namespace OrderNotificatorService
             {
                 order.OrderContent = OrderContent.PizzaOnly;
             }
-            else if (itemsIds.All(item => menuItemsPizza.Except(new List<int> { item }).Any()))
+            else if (!itemsIds.Any(itemId => menuItemsPizza.Contains(itemId)))
             {
                 order.OrderContent = OrderContent.DishesOnly;
             }

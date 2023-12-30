@@ -15,17 +15,15 @@ import { CommonModule } from '@angular/common';
 })
 export class TimeSelectorComponent {
 
+  @Input() order!: Order;
   @Input() type: ServingPlaceType = ServingPlaceType.Pizza;
-  @Input() content: OrderContent = OrderContent.PizzaAndDishes; 
 
   servingPlaceType: typeof ServingPlaceType = ServingPlaceType;
   orderContent: typeof OrderContent = OrderContent;
-
-  @Input() order!: Order;
+ 
   private subscription: Subscription = new Subscription();
 
-  constructor(private orderService: OrderService){}
-
+  constructor(private orderService: OrderService){ }
 
   ngOnDestroy() {
     if (this.subscription) {
