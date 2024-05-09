@@ -10,6 +10,7 @@ namespace OrderNotificatorService
         private readonly IOrderRepository orderRepository;
         private readonly ITimedOrderRepository timedOrderRepository;
         private const int pizzaCateogryId = 5200192;
+        private const int czekadelkoId = 5203957;
 
         public NotificatorService(IOrderRepository orderRepository, ITimedOrderRepository pizzaOrderRepository)
         {
@@ -35,12 +36,12 @@ namespace OrderNotificatorService
                     if (timedOrders.Any(o => o.PosId == posOrder.Id))
                     {
                         var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
-                        order.DeliveryTime = timedOrder.DeliveryTime;
+                        order.DeliveryTime = timedOrder.DeliveryTime.ToLocalTime();
                     }
 
                     orders.Add(order);
                 }
-            }           
+            }
 
             return orders;
         }
@@ -68,7 +69,7 @@ namespace OrderNotificatorService
                     if (timedOrders.Any(o => o.PosId == posOrder.Id))
                     {
                         var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
-                        order.DeliveryTime = timedOrder.DeliveryTime;
+                        order.DeliveryTime = timedOrder.DeliveryTime.ToLocalTime();
                     }
 
                     orders.Add(order);
@@ -102,7 +103,7 @@ namespace OrderNotificatorService
                 PosId = orderDto.PosId,
                 Number = orderDto.Number,
                 TableName = orderDto.TableName,
-                DeliveryTime = orderDto.DeliveryTime,
+                DeliveryTime = orderDto.DeliveryTime.ToLocalTime(),
                 ContainOnlyPizza = orderDto.OrderContent == OrderContent.PizzaOnly
             };
         }
@@ -112,7 +113,7 @@ namespace OrderNotificatorService
             return new OrderDto(timedOrder.PosId, timedOrder.Number, timedOrder.TableName)
             {
                 TimedOrderId = timedOrder.Id,
-                DeliveryTime = timedOrder.DeliveryTime,
+                DeliveryTime = timedOrder.DeliveryTime.ToLocalTime(),
                 OrderContent = timedOrder.ContainOnlyPizza ? OrderContent.PizzaOnly : OrderContent.PizzaAndDishes 
             };
         }
@@ -122,7 +123,9 @@ namespace OrderNotificatorService
             var itemsIds = posOrder.PosOrderItems.Select(p => p.MenuItem.Id).ToList();
             var menuItemsPizza = orderRepository.GetMenuItemIdsByCategory(pizzaCateogryId).Result;
 
-            if (itemsIds.All(item => menuItemsPizza.Contains(item)))
+            
+
+            if (itemsIds.All(item => menuItemsPizza.Contains(item) || item == czekadelkoId))
             {
                 order.OrderContent = OrderContent.PizzaOnly;
             }

@@ -35,7 +35,7 @@ export class TimeSelectorComponent {
     let time_ = parseInt(minutesToAdd.toString());
     let currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + time_);
-    currentDate.setHours(currentDate.getHours() + 1);
+    currentDate.setHours(currentDate.getHours());
     return currentDate;
   }
 
