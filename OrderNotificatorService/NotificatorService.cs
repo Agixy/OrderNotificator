@@ -36,7 +36,7 @@ namespace OrderNotificatorService
                     if (timedOrders.Any(o => o.PosId == posOrder.Id))
                     {
                         var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
-                        order.DeliveryTime = timedOrder.DeliveryTime.ToLocalTime();
+                        order.DeliveryTime = timedOrder.DeliveryTime;
                     }
 
                     orders.Add(order);
@@ -69,7 +69,7 @@ namespace OrderNotificatorService
                     if (timedOrders.Any(o => o.PosId == posOrder.Id))
                     {
                         var timedOrder = timedOrders.First(to => to.PosId == order.PosId);
-                        order.DeliveryTime = timedOrder.DeliveryTime.ToLocalTime();
+                        order.DeliveryTime = timedOrder.DeliveryTime;
                     }
 
                     orders.Add(order);
@@ -113,7 +113,7 @@ namespace OrderNotificatorService
             return new OrderDto(timedOrder.PosId, timedOrder.Number, timedOrder.TableName)
             {
                 TimedOrderId = timedOrder.Id,
-                DeliveryTime = timedOrder.DeliveryTime.ToLocalTime(),
+                DeliveryTime = timedOrder.DeliveryTime,
                 OrderContent = timedOrder.ContainOnlyPizza ? OrderContent.PizzaOnly : OrderContent.PizzaAndDishes 
             };
         }
